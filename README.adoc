@@ -2,7 +2,19 @@
 
 == General Information
 
-Here's an attempt to create a simple Classifieds Springboot Microservice. _More to follow..._
+Here's an attempt to create a Springboot Microservice that exposes a set of RESTful Web Services API
+to support a Classifieds application with the following services/functionalities:
+
+* An endpoint that allows the creation or registration of a User
+* An endpoint that authenticates a User given its credentials
+* An endpoint that allows an authenticated User to perform CRUD operations on listings with the
+following conditions:
+    ** A valid authorization token must be provided for all listing operations
+    ** The authenticated User can create multiple listings
+    ** Only the User that created the corresponding listing can update or delete it
+    ** Only authenticated User can query for listings
+
+_More to follow..._
 
 == Quickstart
 
