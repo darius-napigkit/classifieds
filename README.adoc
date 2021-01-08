@@ -1,0 +1,22 @@
+= My Resume
+
+== General Information
+
+Here's an attempt to create a simple Classifieds Springboot Microservice. _More to follow..._
+
+== Quickstart
+
+_Quickstart guide goes here..._
+
+== Development Build
+
+_Development build instructions go here..._
+
+== Reference
+
+* _TBD_
+* _TBD_
+
+== Notes
+
+_Other Notes go here..._
