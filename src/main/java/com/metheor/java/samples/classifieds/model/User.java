@@ -14,12 +14,13 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Listing implements Serializable {
+public class User implements Serializable {
+
     @Id
     private String id;
-    private String title;
-    private String description;
-    private Double price;
-    private String seller;
+    private String name;
+    private String email;
+    private String password;
     private String region;
+
 }

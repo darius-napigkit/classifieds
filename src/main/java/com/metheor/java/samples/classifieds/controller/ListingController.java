@@ -33,9 +33,9 @@ public class ListingController {
     }
 
     @GetMapping("/{user}")
-    public Flux<Listing> getListingByUser(@PathVariable String user) {
+    public Flux<Listing> getListingBySeller(@PathVariable String user) {
         LOGGER.info("Retrieving listings by user... ");
-        return listingService.findListingsByUser(user);
+        return listingService.findListingsBySeller(user);
     }
 
     @PutMapping("/{id}")

@@ -9,8 +9,8 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface ReactiveListingCrudRepository extends ReactiveCrudRepository<Listing, String> {
 
-    public Flux<Listing> findAllByUser(Mono<String> user);
+    public Flux<Listing> findAllBySeller(Mono<String> user);
 
-    public Mono<Listing> findFirstByUser(Mono<String> user);
+    public Mono<Listing> findFirstBySeller(Mono<String> user);
 
 }

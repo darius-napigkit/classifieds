@@ -2,7 +2,6 @@ package com.metheor.java.samples.classifieds.service.impl;
 
 import com.metheor.java.samples.classifieds.model.Listing;
 import com.metheor.java.samples.classifieds.service.ListingService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.ReactiveRemoveOperation;
@@ -11,8 +10,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @Service
 public class ListingServiceImpl implements ListingService {
@@ -28,7 +25,7 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public Flux<Listing> findListingsByUser(String user) {
+    public Flux<Listing> findListingsBySeller(String user) {
         Query query = new Query();
         query.addCriteria(Criteria.where("user").is(user));
         return template.find(null, Listing.class);
@@ -59,7 +56,7 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public Flux<Listing> deleteListingByUser(String user) {
+    public Flux<Listing> deleteListingBySeller(String user) {
         Query query = new Query();
         query.addCriteria(Criteria.where("user").is(user));
         return template.findAllAndRemove(query, Listing.class);

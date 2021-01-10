@@ -9,7 +9,7 @@ public interface ListingService {
 
     public Mono<Listing> findByTitle(String title);
 
-    public Flux<Listing> findListingsByUser(String user);
+    public Flux<Listing> findListingsBySeller(String user);
 
     public Flux<Listing> findAll();
 
@@ -19,7 +19,7 @@ public interface ListingService {
 
     public Mono<Listing> deleteListing(String id);
 
-    public Flux<Listing> deleteListingByUser(String user);
+    public Flux<Listing> deleteListingBySeller(String user);
 
     public ReactiveRemoveOperation.ReactiveRemove<Listing> deleteAll();
 
