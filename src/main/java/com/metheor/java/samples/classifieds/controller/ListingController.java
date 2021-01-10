@@ -22,6 +22,7 @@ public class ListingController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Listing> createListing(@RequestBody Listing listing) {
+        LOGGER.info("Creating and saving a listing... ");
         return listingService.saveListing(listing);
     }
 
@@ -31,10 +32,24 @@ public class ListingController {
         return listingService.findAll();
     }
 
-    @GetMapping("/v1/listings/{user}")
+    @GetMapping("/{user}")
     public Flux<Listing> getListingByUser(@PathVariable String user) {
         LOGGER.info("Retrieving listings by user... ");
         return listingService.findListingsByUser(user);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Listing> updateListing(@PathVariable String id, @RequestBody Listing listing) {
+        LOGGER.info("Updating a listing... ");
+        return listingService.updateListing(id, listing);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Listing> deleteListing(@PathVariable String id) {
+        LOGGER.info("Deleting a listing... ");
+        return listingService.deleteListing(id);
     }
 
 }

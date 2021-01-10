@@ -15,6 +15,10 @@ public interface ListingService {
 
     public Mono<Listing> saveListing(Listing listing);
 
+    public Mono<Listing> updateListing(String id, Listing listing);
+
+    public Mono<Listing> deleteListing(String id);
+
     public Flux<Listing> deleteListingByUser(String user);
 
     public ReactiveRemoveOperation.ReactiveRemove<Listing> deleteAll();

@@ -2,6 +2,7 @@ package com.metheor.java.samples.classifieds.service.impl;
 
 import com.metheor.java.samples.classifieds.model.Listing;
 import com.metheor.java.samples.classifieds.service.ListingService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.ReactiveRemoveOperation;
@@ -10,6 +11,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 public class ListingServiceImpl implements ListingService {
@@ -39,6 +42,20 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public Mono<Listing> saveListing(Listing listing) {
         return template.save(listing);
+    }
+
+    @Override
+    public Mono<Listing> updateListing(String id, Listing listing) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("title").is(listing.getTitle()));
+        return template.findById(id, Listing.class).map(l -> listing).flatMap(template::save);
+    }
+
+    @Override
+    public Mono<Listing> deleteListing(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id));
+        return template.findAndRemove(query, Listing.class);
     }
 
     @Override
