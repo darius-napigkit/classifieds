@@ -13,16 +13,109 @@ following conditions:
     ** The authenticated User can create multiple listings
     ** Only the User that created the corresponding listing can update or delete it
     ** Only authenticated User can query for listings
+    ** Retrieval of listings is based on the User's region
 
-_More to follow..._
+=== Pre-requisites
+* OpenJDK 11
+* Postman
+* Standalone MongoDB 4.x
+** You have a running Standalone MongoDB instance. If you don't have one installed
+and running, please follow instructions found https://docs.mongodb.com/manual/installation/[here]
+* Keycloak 12.0.1 (This will be used to manage Users)
+** You have a running Keycloak Standalone Server. If you don't have one running,
+please follow Sections 1-4 in the guide found https://www.baeldung.com/spring-boot-keycloak[here]
+** Also modify the following values:
+
+'Realm Name' to `sb-classifieds-api`
+
+'Client ID' to `classifieds-rest-ws`
+
+Also when creating a User, define a Custom Attribute with `region` as 'key' and `<region value>` as 'value'
+
+To be able to successfully associate a `region` for every user when making API calls, go to
+'Clients' > click on the 'Client ID' created in above steps > go to 'Mappers' tab > click 'Create'. Create a
+mapping with the following info...
+....
+Name: region
+Mapper Type: User Attribute
+User Attribute: region
+Token Claim Name: region
+Claim JSON Type: String
+....
+
+Click Save.
+
+=== Assumption(s)
+
+
+_(More to follow...)_
 
 == Quickstart
 
-_Quickstart guide goes here..._
+Clone the Classified project source with the following command
+....
+git clone https://github.com/darius-napigkit/classifieds.git
+....
+
+Change directory to the resulting 'classifieds' sub-directory and checkout the 'develop' branch
+....
+git checkout develop
+....
+
+_(Further Quickstart guide goes here...)_
 
 == Development Build
 
-_Development build instructions go here..._
+Ensure that you are in the 'classifieds' directory and issue the command
+....
+mvn clean package -DskipTests
+....
+
+after the project builds, run the following command
+....
+mvn spring-boot:run
+....
+
+_(Further Development build instructions go here...)_
+
+=== Testing
+Most of the testing will be done using Postman. Follow Section/Step 4 of the above guide on Keycloak
+to generate and acquire/obtain an Access Token to be able to invoke the REST APIs
+
+For creating a Listing
+....
+POST http://localhost:8081/v1/listings
+....
+
+Sample Request Body Payload:
+....
+{
+    "title" : "Walkman",
+    "description" : "Slightly used",
+    "price" : 17.98
+}
+....
+
+Querying for available Listings
+....
+GET http://localhost:8081/v1/listings
+GET http://localhost:8081/v1/listings/all
+GET http://localhost:8081/v1/listings/{user}
+....
+
+Updating an existing Listing
+....
+PUT http://localhost:8081/v1/listings/{id}
+....
+
+Deleting an existing Listing
+....
+DELETE http://localhost:8081/v1/listings/{id}
+....
+
+To checkout the Swagger API Doc, launch a web browser and go to `http://localhost:8081/v2/api-docs`.
+
+*_TODO_*: _Resolve Swagger UI not loading due to configuration with Keycloak_
 
 == Reference
 
