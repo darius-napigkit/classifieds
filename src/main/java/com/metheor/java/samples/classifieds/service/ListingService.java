@@ -7,6 +7,8 @@ import reactor.core.publisher.Mono;
 
 public interface ListingService {
 
+    public Mono<Listing> findById(String id);
+
     public Mono<Listing> findByTitle(String title);
 
     public Flux<Listing> findListingsBySeller(String user);

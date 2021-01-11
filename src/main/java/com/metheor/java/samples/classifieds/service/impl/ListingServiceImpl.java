@@ -18,6 +18,11 @@ public class ListingServiceImpl implements ListingService {
     ReactiveMongoTemplate template;
 
     @Override
+    public Mono<Listing> findById(String id) {
+        return template.findById(id, Listing.class);
+    }
+
+    @Override
     public Mono<Listing> findByTitle(String title) {
         Query query = new Query();
         query.addCriteria(Criteria.where("title").is(title));
@@ -25,10 +30,10 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public Flux<Listing> findListingsBySeller(String user) {
+    public Flux<Listing> findListingsBySeller(String seller) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("user").is(user));
-        return template.find(null, Listing.class);
+        query.addCriteria(Criteria.where("seller").is(seller));
+        return template.find(query, Listing.class);
     }
 
     @Override
