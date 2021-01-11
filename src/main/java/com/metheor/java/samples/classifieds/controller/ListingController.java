@@ -2,20 +2,17 @@ package com.metheor.java.samples.classifieds.controller;
 
 import com.metheor.java.samples.classifieds.model.Listing;
 import com.metheor.java.samples.classifieds.service.ListingService;
-import org.apache.http.client.HttpResponseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.keycloak.authorization.client.util.Http;
 import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -61,7 +58,7 @@ public class ListingController {
         return listingService.saveListing(listing);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public Flux<Listing> getAllListing() {
         LOGGER.info("Retrieving all listings... ");
         return listingService.findAll();
@@ -71,6 +68,29 @@ public class ListingController {
     public Flux<Listing> getListingBySeller(@PathVariable String user) {
         LOGGER.info("Retrieving listings by user... ");
         return listingService.findListingsBySeller(user);
+    }
+
+    @GetMapping
+    public Flux<Listing> getListingsByUserRegion() {
+        LOGGER.info("Retrieving KC AuthToken... ");
+        KeycloakAuthenticationToken authToken = (KeycloakAuthenticationToken) SecurityContextHolder.getContext()
+            .getAuthentication();
+        final Principal principal = (Principal) authToken.getPrincipal();
+        String userRegion = "";
+
+        if (principal instanceof KeycloakPrincipal) {
+            KeycloakPrincipal<KeycloakSecurityContext> kcPrincipal = (KeycloakPrincipal<KeycloakSecurityContext>) principal;
+            AccessToken token = kcPrincipal.getKeycloakSecurityContext().getToken();
+
+            Map<String, Object> customClaims = token.getOtherClaims();
+
+            if (customClaims.containsKey("region")) {
+                userRegion = String.valueOf(customClaims.get("region"));
+            }
+        }
+
+        LOGGER.info("Retrieving all listings based on the User's region... ");
+        return listingService.findListingsByUserRegion(userRegion);
     }
 
     @PutMapping("/{id}")

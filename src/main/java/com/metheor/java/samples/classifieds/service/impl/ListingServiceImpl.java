@@ -37,6 +37,13 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
+    public Flux<Listing> findListingsByUserRegion(String region) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("region").is(region));
+        return template.find(query, Listing.class);
+    }
+
+    @Override
     public Flux<Listing> findAll() {
         return template.findAll(Listing.class);
     }

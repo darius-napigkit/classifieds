@@ -13,6 +13,8 @@ public interface ListingService {
 
     public Flux<Listing> findListingsBySeller(String user);
 
+    public Flux<Listing> findListingsByUserRegion(String region);
+
     public Flux<Listing> findAll();
 
     public Mono<Listing> saveListing(Listing listing);
